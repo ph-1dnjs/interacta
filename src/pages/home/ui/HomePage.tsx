@@ -1,6 +1,29 @@
+import { useEffect, useState } from "react";
 import { ThreeScene } from "../../../widgets/three-scene";
 
+function formatDateTime(date: Date) {
+  const time = date.toLocaleTimeString("ko-KR", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+  const day = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    .map((value, index) => (index === 0 ? String(value) : String(value).padStart(2, "0")))
+    .join("-");
+
+  return { time, day };
+}
+
 export function HomePage() {
+  const [now, setNow] = useState(() => new Date());
+  const { time, day } = formatDateTime(now);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
   return (
     <main>
       <section>
@@ -20,9 +43,9 @@ export function HomePage() {
           시작
         </button>
         <div className="notification-area">
-          <time dateTime="2001-10-25T15:45">
-            <span>오후 3:45</span>
-            <span>2001-10-25</span>
+          <time dateTime={`${day}T${now.toTimeString().slice(0, 5)}`}>
+            <span>{time}</span>
+            <span>{day}</span>
           </time>
         </div>
       </nav>
