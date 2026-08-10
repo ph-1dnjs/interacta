@@ -3,7 +3,11 @@ import { Canvas } from '@react-three/fiber'
 
 export function ThreeScene() {
   return (
-    <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
+    <Canvas
+      className="three-canvas"
+      camera={{ position: [0, 0, 4], fov: 50 }}
+      gl={{ alpha: true, preserveDrawingBuffer: true }}
+    >
       <ambientLight intensity={1.2} />
       <directionalLight position={[3, 3, 3]} intensity={2} />
       <mesh rotation={[0.4, 0.5, 0]}>

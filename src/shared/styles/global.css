@@ -46,6 +46,49 @@ main::after {
     rgba(2, 6, 23, 0.08) 70%
   );
 }
+.desktop-icon {
+  position: fixed;
+  z-index: 2;
+  top: 34px;
+  left: 32px;
+  display: flex;
+  width: 112px;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font:
+    14px/18px Tahoma,
+    Arial,
+    sans-serif;
+  text-shadow: 1px 1px 2px #15284d;
+  cursor: default;
+}
+.desktop-icon img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+.desktop-icon span {
+  color: inherit;
+}
+.rain-overlay {
+  position: fixed;
+  z-index: 5;
+  inset: 0;
+  pointer-events: none;
+}
+.rain-blur {
+  position: fixed;
+  z-index: 11;
+  inset: 0;
+  background: rgba(10, 26, 52, 0.12);
+  pointer-events: none;
+}
 section p {
   color: #a78bfa;
   font-weight: 700;
@@ -59,9 +102,12 @@ h1 {
 span {
   color: #cbd5e1;
 }
-canvas {
+.three-canvas {
   width: 100% !important;
   height: min(60vw, 520px) !important;
+}
+.three-scene-obstacle {
+  min-width: 0;
 }
 .taskbar {
   position: fixed;
@@ -272,7 +318,7 @@ canvas {
     grid-template-columns: 1fr;
     padding: 2rem;
   }
-  canvas {
+  .three-canvas {
     height: 65vw !important;
   }
 }
