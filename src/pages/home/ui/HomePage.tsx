@@ -19,6 +19,7 @@ function formatDateTime(date: Date) {
 export function HomePage() {
   const [now, setNow] = useState(() => new Date());
   const [isRaining, setIsRaining] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const folderImageRef = useRef<HTMLImageElement>(null);
   const folderLabelRef = useRef<HTMLSpanElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
@@ -57,6 +58,15 @@ export function HomePage() {
         <img ref={folderImageRef} src={folderIcon} alt="" width="75" height="75" />
         <span ref={folderLabelRef}>클릭금지</span>
       </button>
+      <button
+        className="desktop-icon gallery-icon"
+        type="button"
+        onClick={() => setIsGalleryOpen(true)}
+        aria-label="갤러리 열기"
+      >
+        <img src={folderIcon} alt="" width="75" height="75" />
+        <span>갤러리</span>
+      </button>
       <section>
         <p ref={eyebrowRef}>React · TypeScript · Vite</p>
         <h1 ref={titleRef}>Interacta</h1>
@@ -67,6 +77,38 @@ export function HomePage() {
       </div>
       <RainOverlay active={isRaining} obstacles={rainObstacles} />
       {isRaining && <div className="rain-blur" aria-hidden="true" />}
+      {isGalleryOpen && (
+        <section className="gallery-window" aria-label="갤러리">
+          <header className="gallery-titlebar">
+            <span>갤러리 - Interacta</span>
+            <button type="button" onClick={() => setIsGalleryOpen(false)} aria-label="갤러리 닫기">
+              ×
+            </button>
+          </header>
+          <div className="gallery-toolbar" aria-hidden="true">
+            <span>파일</span>
+            <span>편집</span>
+            <span>보기</span>
+            <span>즐겨찾기</span>
+            <span>도구</span>
+            <span>도움말</span>
+          </div>
+          <div className="gallery-content">
+            <div className="gallery-stream gallery-stream-left" aria-hidden="true">
+              <GalleryCards />
+              <GalleryCards />
+            </div>
+            <div className="gallery-stream gallery-stream-center" aria-hidden="true">
+              <GalleryCards />
+              <GalleryCards />
+            </div>
+            <div className="gallery-stream gallery-stream-right" aria-hidden="true">
+              <GalleryCards />
+              <GalleryCards />
+            </div>
+          </div>
+        </section>
+      )}
       <nav ref={taskbarRef} className="taskbar" aria-label="작업 표시줄">
         <button className="start-button" type="button">
           <span className="start-mark" aria-hidden="true">
@@ -85,5 +127,15 @@ export function HomePage() {
         </div>
       </nav>
     </main>
+  );
+}
+
+function GalleryCards() {
+  return (
+    <div className="gallery-card-set">
+      {Array.from({ length: 8 }, (_, index) => (
+        <div className={`gallery-card gallery-card-${index + 1}`} key={index} />
+      ))}
+    </div>
   );
 }
