@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import folderIcon from "../../../shared/assets/no-click-folder.ico";
+import { GalleryOneWindow } from "../../../widgets/gallery-one/ui/GalleryOneWindow";
+import { GalleryTwoWindow } from "../../../widgets/gallery-two/ui/GalleryTwoWindow";
 import { RainOverlay } from "../../../widgets/rain";
 import { ThreeScene } from "../../../widgets/three-scene";
 
@@ -10,7 +12,9 @@ function formatDateTime(date: Date) {
     hour12: true,
   });
   const day = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
-    .map((value, index) => (index === 0 ? String(value) : String(value).padStart(2, "0")))
+    .map((value, index) =>
+      index === 0 ? String(value) : String(value).padStart(2, "0"),
+    )
     .join("-");
 
   return { time, day };
@@ -20,6 +24,7 @@ export function HomePage() {
   const [now, setNow] = useState(() => new Date());
   const [isRaining, setIsRaining] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isGalleryTwoOpen, setIsGalleryTwoOpen] = useState(false);
   const folderImageRef = useRef<HTMLImageElement>(null);
   const folderLabelRef = useRef<HTMLSpanElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
@@ -43,7 +48,6 @@ export function HomePage() {
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
-
     return () => window.clearInterval(timer);
   }, []);
 
@@ -61,11 +65,26 @@ export function HomePage() {
       <button
         className="desktop-icon gallery-icon"
         type="button"
-        onClick={() => setIsGalleryOpen(true)}
-        aria-label="갤러리 열기"
+        onClick={() => {
+          setIsGalleryTwoOpen(false);
+          setIsGalleryOpen(true);
+        }}
+        aria-label="갤러리 1 열기"
       >
         <img src={folderIcon} alt="" width="75" height="75" />
-        <span>갤러리</span>
+        <span>갤러리 1</span>
+      </button>
+      <button
+        className="desktop-icon gallery-two-icon"
+        type="button"
+        onClick={() => {
+          setIsGalleryOpen(false);
+          setIsGalleryTwoOpen(true);
+        }}
+        aria-label="갤러리 2 열기"
+      >
+        <img src={folderIcon} alt="" width="75" height="75" />
+        <span>갤러리 2</span>
       </button>
       <section>
         <p ref={eyebrowRef}>React · TypeScript · Vite</p>
@@ -77,46 +96,11 @@ export function HomePage() {
       </div>
       <RainOverlay active={isRaining} obstacles={rainObstacles} />
       {isRaining && <div className="rain-blur" aria-hidden="true" />}
-      {isGalleryOpen && (
-        <section className="gallery-window" aria-label="갤러리">
-          <header className="gallery-titlebar">
-            <span>갤러리 - Interacta</span>
-            <button type="button" onClick={() => setIsGalleryOpen(false)} aria-label="갤러리 닫기">
-              ×
-            </button>
-          </header>
-          <div className="gallery-toolbar" aria-hidden="true">
-            <span>파일</span>
-            <span>편집</span>
-            <span>보기</span>
-            <span>즐겨찾기</span>
-            <span>도구</span>
-            <span>도움말</span>
-          </div>
-          <div className="gallery-content">
-            <div className="gallery-stream gallery-stream-left" aria-hidden="true">
-              <GalleryCards />
-              <GalleryCards />
-            </div>
-            <div className="gallery-stream gallery-stream-center" aria-hidden="true">
-              <GalleryCards />
-              <GalleryCards />
-            </div>
-            <div className="gallery-stream gallery-stream-right" aria-hidden="true">
-              <GalleryCards />
-              <GalleryCards />
-            </div>
-          </div>
-        </section>
-      )}
+      {isGalleryOpen && <GalleryOneWindow onClose={() => setIsGalleryOpen(false)} />}
+      {isGalleryTwoOpen && <GalleryTwoWindow onClose={() => setIsGalleryTwoOpen(false)} />}
       <nav ref={taskbarRef} className="taskbar" aria-label="작업 표시줄">
         <button className="start-button" type="button">
-          <span className="start-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-            <i />
-          </span>
+          <span className="start-mark" aria-hidden="true"><i /><i /><i /><i /></span>
           시작
         </button>
         <div className="notification-area">
@@ -127,15 +111,5 @@ export function HomePage() {
         </div>
       </nav>
     </main>
-  );
-}
-
-function GalleryCards() {
-  return (
-    <div className="gallery-card-set">
-      {Array.from({ length: 8 }, (_, index) => (
-        <div className={`gallery-card gallery-card-${index + 1}`} key={index} />
-      ))}
-    </div>
   );
 }

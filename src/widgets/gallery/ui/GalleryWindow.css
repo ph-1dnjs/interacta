@@ -1,0 +1,67 @@
+.gallery-window {
+  position: fixed;
+  z-index: 8;
+  inset: 0 0 48px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 3px solid #0b4ca2;
+  background: #f3f6fb;
+  box-shadow: inset 1px 1px #d5ebff;
+}
+.gallery-titlebar {
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 5px 4px 10px;
+  background: linear-gradient(90deg, #0c55aa, #3989d8 68%, #85bdf4);
+  color: #fff;
+  font: 700 15px/1 Tahoma, Arial, sans-serif;
+  text-shadow: 1px 1px #15477e;
+}
+.gallery-titlebar button {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  background: linear-gradient(#ef806b, #c63820);
+  color: #fff;
+  font: 700 21px/16px Arial, sans-serif;
+  cursor: pointer;
+}
+.gallery-toolbar {
+  display: flex;
+  gap: 20px;
+  min-height: 27px;
+  align-items: center;
+  padding: 0 12px;
+  border-bottom: 1px solid #b6b6b6;
+  background: #f6f6f6;
+  color: #202020;
+  font: 13px/1 Tahoma, Arial, sans-serif;
+}
+.gallery-focused-title {
+  position: absolute;
+  top: 218px;
+  left: 50%;
+  z-index: 2;
+  margin: 0;
+  transform: translateX(-50%);
+  color: #24334a;
+  font: 700 24px/30px Tahoma, Arial, sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.gallery-focused-title span { display: block; }
+.gallery-title-exit { position: absolute; inset: 0; }
+.gallery-title-enter.is-clockwise { animation: gallery-title-enter-from-right 0.42s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.gallery-title-exit.is-clockwise { animation: gallery-title-exit-to-left 0.32s ease-in both; }
+.gallery-title-enter.is-counterclockwise { animation: gallery-title-enter-from-left 0.42s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.gallery-title-exit.is-counterclockwise { animation: gallery-title-exit-to-right 0.32s ease-in both; }
+@keyframes gallery-title-enter-from-right { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes gallery-title-exit-to-left { to { opacity: 0; transform: translateX(-28px); } }
+@keyframes gallery-title-enter-from-left { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes gallery-title-exit-to-right { to { opacity: 0; transform: translateX(28px); } }

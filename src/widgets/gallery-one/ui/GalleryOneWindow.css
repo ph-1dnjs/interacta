@@ -1,0 +1,11 @@
+.gallery-carousel { position: relative; flex: 1; overflow: hidden; background: #fff; perspective: 1400px; perspective-origin: 50% 45%; cursor: grab; touch-action: none; user-select: none; }
+.gallery-carousel.is-grabbing { cursor: grabbing; }
+.gallery-ring { position: absolute; top: 50%; left: 50%; transform-style: preserve-3d; will-change: transform; }
+.gallery-tile { position: absolute; inset: 0; background: url("../../../shared/assets/home-background.png") center / cover; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45); backface-visibility: hidden; }
+.gallery-tile-2 { background-position: 15% center; filter: hue-rotate(28deg) saturate(0.75); }
+.gallery-tile-3 { background-position: 84% center; filter: hue-rotate(-24deg) saturate(1.25); }
+.gallery-tile-4 { filter: hue-rotate(70deg) saturate(0.78); }
+.gallery-drag-hint { position: absolute; right: 0; bottom: 44px; left: 0; margin: 0; color: #637086; font: 12px/1 Tahoma, Arial, sans-serif; letter-spacing: 0.02em; text-align: center; }
+.gallery-progress { position: absolute; bottom: 20px; left: 50%; display: flex; gap: 6px; transform: translateX(-50%); }
+.gallery-progress i { width: 5px; height: 5px; border-radius: 50%; background: rgba(38, 69, 114, 0.25); transition: background 0.25s ease, transform 0.25s ease; }
+.gallery-progress i.is-active { background: #315f9c; transform: scale(1.5); }

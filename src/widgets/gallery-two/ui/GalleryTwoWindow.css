@@ -1,0 +1,14 @@
+.gallery-two-stage { position: relative; width: 100%; flex: 1; align-self: stretch; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #0e0f10; color: #f4f2ec; perspective: 4000px; perspective-origin: 50% 50%; cursor: grab; touch-action: none; user-select: none; }
+.gallery-two-stage.is-grabbing { cursor: grabbing; }
+.gallery-two-stage::before { content: ""; position: absolute; z-index: 4; inset: 0; background: radial-gradient(ellipse at center, transparent 35%, #0e0f10 100%); pointer-events: none; }
+.gallery-two-stage .gallery-focused-title { z-index: 5; color: #f4f2ec; }
+.gallery-two-cylinder { position: relative; transform-style: preserve-3d; will-change: transform; }
+.gallery-two-panel { position: absolute; top: 0; left: 0; display: flex; align-items: flex-end; padding: 16px; border-radius: 6px; background: url("../../../shared/assets/home-background.png") center / cover; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45); backface-visibility: hidden; }
+.gallery-two-panel-2 { background-position: 15% center; filter: hue-rotate(28deg) saturate(0.75); }
+.gallery-two-panel-3 { background-position: 84% center; filter: hue-rotate(-24deg) saturate(1.25); }
+.gallery-two-panel-4 { filter: hue-rotate(70deg) saturate(0.78); }
+.gallery-two-panel span { color: rgba(0, 0, 0, 0.55); font: 600 11px/1 -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif; letter-spacing: 0.06em; }
+.gallery-two-hint { position: absolute; right: 0; bottom: 44px; left: 0; z-index: 5; margin: 0; color: #8b8d90; font: 12px/1 -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif; letter-spacing: 0.02em; text-align: center; }
+.gallery-two-progress { position: absolute; bottom: 20px; left: 50%; z-index: 5; display: flex; gap: 6px; transform: translateX(-50%); }
+.gallery-two-progress i { width: 5px; height: 5px; border-radius: 50%; background: rgba(244, 242, 236, 0.18); transition: background 0.25s ease, transform 0.25s ease; }
+.gallery-two-progress i.is-active { background: #d9d3c1; transform: scale(1.5); }
