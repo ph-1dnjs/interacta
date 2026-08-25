@@ -1,7 +1,7 @@
-import { Billboard, OrbitControls, Text3D } from '@react-three/drei'
+import { Billboard, OrbitControls, Text3D, useGLTF } from '@react-three/drei'
 import { DragControls } from '@react-three/drei/web'
-import { Canvas, useThree } from '@react-three/fiber'
-import { Suspense, useLayoutEffect, useMemo, useRef } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 class CanopyRibCurve extends THREE.Curve<THREE.Vector3> {
@@ -189,6 +189,74 @@ function GlassHelloWorld() {
   )
 }
 
+const movementKeys = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])
+
+function BunnyAvatar() {
+  const { scene } = useGLTF('/models/bunny-avatar.glb')
+  const avatar = useMemo(() => scene.clone(true), [scene])
+
+  useLayoutEffect(() => {
+    avatar.traverse((node) => {
+      if (!(node instanceof THREE.Mesh)) return
+      node.castShadow = true
+      node.receiveShadow = true
+    })
+  }, [avatar])
+
+  return <primitive object={avatar} position={[0, -1.5, 0]} scale={3.3} />
+}
+
+function BunnyPlayer() {
+  const player = useRef<THREE.Group>(null)
+  const pressedKeys = useRef(new Set<string>())
+
+  useEffect(() => {
+    const isTyping = (target: EventTarget | null) =>
+      target instanceof HTMLElement &&
+      (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!movementKeys.has(event.key) || isTyping(event.target)) return
+      pressedKeys.current.add(event.key)
+      event.preventDefault()
+    }
+    const onKeyUp = (event: KeyboardEvent) => {
+      if (!movementKeys.has(event.key)) return
+      pressedKeys.current.delete(event.key)
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('keyup', onKeyUp)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('keyup', onKeyUp)
+    }
+  }, [])
+
+  useFrame((_, delta) => {
+    if (!player.current) return
+
+    const direction = new THREE.Vector3(
+      Number(pressedKeys.current.has('ArrowRight')) - Number(pressedKeys.current.has('ArrowLeft')),
+      0,
+      Number(pressedKeys.current.has('ArrowDown')) - Number(pressedKeys.current.has('ArrowUp')),
+    )
+    if (direction.lengthSq() === 0) return
+
+    direction.normalize()
+    player.current.position.x = THREE.MathUtils.clamp(player.current.position.x + direction.x * delta * 3.2, -4.2, 4.2)
+    player.current.position.z = THREE.MathUtils.clamp(player.current.position.z + direction.z * delta * 3.2, -2.3, 2.3)
+    player.current.rotation.y = Math.atan2(direction.x, direction.z)
+    player.current.position.y = -1.65 + Math.sin(performance.now() * 0.018) * 0.035
+  })
+
+  return (
+    <group ref={player} position={[0, -1.65, 0]}>
+      <BunnyAvatar />
+    </group>
+  )
+}
+
 export function ThreeScene({ showHelloWorld = false }: { showHelloWorld?: boolean }) {
   return (
     <Canvas
@@ -200,6 +268,9 @@ export function ThreeScene({ showHelloWorld = false }: { showHelloWorld?: boolea
       <directionalLight position={[-4, 5, 5]} color="#d9f6ff" intensity={4.8} />
       <pointLight position={[3, -1, 3]} color="#3b9cff" intensity={16} distance={13} />
       <pointLight position={[-3, 2, 2]} color="#ffffff" intensity={8} distance={10} />
+      <Suspense fallback={null}>
+        <BunnyPlayer />
+      </Suspense>
       {showHelloWorld && (
         <Suspense fallback={null}>
           <GlassHelloWorld />
