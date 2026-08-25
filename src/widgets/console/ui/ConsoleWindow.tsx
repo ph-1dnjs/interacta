@@ -104,9 +104,9 @@ export function ConsoleWindow({
       </header>
       <div className="console-body" onPointerDown={(event) => event.stopPropagation()}>
         {lines.map((line, index) => <div key={`${line}-${index}`}>{line || " "}</div>)}
-        <form onSubmit={(event) => { event.preventDefault(); submitCommand(); }}>
+        <form autoComplete="off" onSubmit={(event) => { event.preventDefault(); submitCommand(); }}>
           <label htmlFor="console-input">C:\\Documents and Settings\\Administrator&gt;</label>
-          <input id="console-input" autoFocus value={command} onChange={(event) => setCommand(event.target.value)} spellCheck="false" />
+          <input id="console-input" autoComplete="off" autoFocus value={command} onChange={(event) => setCommand(event.target.value)} spellCheck="false" />
         </form>
       </div>
     </section>
