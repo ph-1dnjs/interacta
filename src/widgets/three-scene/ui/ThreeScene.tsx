@@ -1,6 +1,7 @@
-import { OrbitControls } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
-import { useMemo } from 'react'
+import { Billboard, OrbitControls, Text3D } from '@react-three/drei'
+import { DragControls } from '@react-three/drei/web'
+import { Canvas, useThree } from '@react-three/fiber'
+import { Suspense, useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 class CanopyRibCurve extends THREE.Curve<THREE.Vector3> {
@@ -121,17 +122,114 @@ function Umbrella() {
   )
 }
 
-export function ThreeScene() {
+function FitTextCamera({ target }: { target: { current: THREE.Group | null } }) {
+  const { camera, size } = useThree()
+
+  useLayoutEffect(() => {
+    if (!target.current) return
+
+    const perspectiveCamera = camera as THREE.PerspectiveCamera
+    const bounds = new THREE.Box3().setFromObject(target.current)
+    if (bounds.isEmpty()) return
+
+    const center = bounds.getCenter(new THREE.Vector3())
+    const textSize = bounds.getSize(new THREE.Vector3())
+    const halfFov = THREE.MathUtils.degToRad(perspectiveCamera.fov) / 2
+    const padding = 1.12
+    const distanceForHeight = (textSize.y * padding) / (2 * Math.tan(halfFov))
+    const distanceForWidth = (textSize.x * padding) / (2 * Math.tan(halfFov) * perspectiveCamera.aspect)
+    const distance = Math.max(distanceForHeight, distanceForWidth, 0.1)
+
+    perspectiveCamera.position.set(center.x, center.y, center.z + distance)
+    perspectiveCamera.lookAt(center)
+    perspectiveCamera.near = Math.max(distance / 100, 0.01)
+    perspectiveCamera.far = distance * 100
+    perspectiveCamera.updateProjectionMatrix()
+  }, [camera, size, target])
+
+  return null
+}
+
+function GlassHelloWorld() {
+  const textRef = useRef<THREE.Group>(null)
+
+  return (
+    <>
+      <Billboard ref={textRef} follow>
+        <Text3D
+          font="/fonts/pacifico-regular.typeface.json"
+          size={1.58}
+          height={0.32}
+          curveSegments={28}
+          letterSpacing={0.11}
+          bevelEnabled
+          bevelThickness={0.09}
+          bevelSize={0.065}
+          bevelSegments={7}
+        >
+          hello world
+          <meshPhysicalMaterial
+            color="#8ed1ff"
+            metalness={0.14}
+            roughness={0.025}
+            transmission={0.68}
+            thickness={1.1}
+            ior={1.5}
+            transparent
+            opacity={0.98}
+            clearcoat={1}
+            clearcoatRoughness={0.02}
+            emissive="#58b8ff"
+            emissiveIntensity={0.08}
+          />
+        </Text3D>
+      </Billboard>
+      <FitTextCamera target={textRef} />
+    </>
+  )
+}
+
+export function ThreeScene({ showHelloWorld = false }: { showHelloWorld?: boolean }) {
   return (
     <Canvas
       className="three-canvas"
-      camera={{ position: [3.1, 1.1, 5.2], fov: 43 }}
+      camera={{ position: [0, 0.2, 10.2], fov: 36 }}
+      gl={{ alpha: true, preserveDrawingBuffer: true }}
+    >
+      <ambientLight intensity={1.55} />
+      <directionalLight position={[-4, 5, 5]} color="#d9f6ff" intensity={4.8} />
+      <pointLight position={[3, -1, 3]} color="#3b9cff" intensity={16} distance={13} />
+      <pointLight position={[-3, 2, 2]} color="#ffffff" intensity={8} distance={10} />
+      {showHelloWorld && (
+        <Suspense fallback={null}>
+          <GlassHelloWorld />
+        </Suspense>
+      )}
+    </Canvas>
+  )
+}
+
+export function UmbrellaScene() {
+  return (
+    <Canvas
+      className="three-canvas"
+      camera={{ position: [0, 0.2, 10.2], fov: 36 }}
       gl={{ alpha: true, preserveDrawingBuffer: true }}
     >
       <ambientLight intensity={1.6} />
       <directionalLight position={[3, 4, 3]} intensity={2.2} />
-      <Umbrella />
-      <OrbitControls enablePan={false} />
+      <DraggableUmbrella />
+      <OrbitControls makeDefault enablePan={false} enableZoom={false} />
     </Canvas>
+  )
+}
+
+function DraggableUmbrella() {
+  return (
+    <group position={[3.45, -1.2, 0]} scale={0.52}>
+      <DragControls axisLock="z">
+        <Umbrella />
+      </DragControls>
+    </group>
   )
 }

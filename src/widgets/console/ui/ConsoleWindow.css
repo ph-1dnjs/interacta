@@ -1,0 +1,12 @@
+.console-window { position: fixed; z-index: 20; display: flex; width: min(680px, calc(100vw - 32px)); height: min(420px, calc(100vh - 88px)); flex-direction: column; border: 3px solid #ece9d8; background: #000; box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.48); color: #f1f1f1; font-family: "Lucida Console", Monaco, monospace; font-size: 13px; line-height: 1.2; }
+.console-window.is-maximized { inset: 0; width: 100vw; height: calc(100vh - 48px); border-width: 3px; }
+.console-titlebar { display: flex; flex: 0 0 25px; align-items: center; height: 25px; padding-left: 6px; background: linear-gradient(90deg, #0a246a, #3e93e9); color: #fff; font: bold 13px/1 Tahoma, Arial, sans-serif; cursor: move; user-select: none; }
+.console-title { display: flex; flex: 1; align-items: center; gap: 5px; overflow: hidden; white-space: nowrap; }
+.console-title i { display: grid; width: 16px; height: 14px; place-items: center; border: 1px solid #fff; background: #111; color: #fff; font: bold 8px/1 monospace; font-style: normal; }
+.console-controls { display: flex; align-self: stretch; margin-left: auto; }
+.console-controls button { width: 23px; height: 21px; margin: 2px 2px 2px 0; padding: 0; border: 1px solid #fff; border-right-color: #404040; border-bottom-color: #404040; background: #ece9d8; color: #111; font: bold 16px/16px Arial, sans-serif; cursor: pointer; }
+.console-controls button:first-child { font-size: 15px; }
+.console-body { width: 100%; flex: 1; padding: 5px 4px; overflow: auto; white-space: pre-wrap; }
+.console-body form { display: flex; align-items: baseline; white-space: nowrap; }
+.console-body input { flex: 1; min-width: 10px; padding: 0; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; caret-color: #fff; }
+@media (max-width: 700px) { .console-window { left: 16px !important; width: calc(100vw - 32px); height: min(420px, calc(100vh - 88px)); } }

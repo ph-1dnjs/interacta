@@ -1,1 +1,1 @@
-export { ThreeScene } from './ui/ThreeScene'
+export { ThreeScene, UmbrellaScene } from './ui/ThreeScene'

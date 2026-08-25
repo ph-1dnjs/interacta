@@ -98,9 +98,19 @@ export function RainOverlay({ active, obstacles }: RainOverlayProps) {
       }
 
       if (obstacle.shape === "canvas") {
-        const source = obstacle.ref.current?.querySelector("canvas");
-        if (!source) return undefined;
-        maskContext.drawImage(source, 0, 0, rect.width, rect.height);
+        const sources = obstacle.ref.current?.querySelectorAll("canvas");
+        if (!sources?.length) return undefined;
+
+        sources.forEach((source) => {
+          const sourceRect = source.getBoundingClientRect();
+          maskContext.drawImage(
+            source,
+            sourceRect.left - rect.left,
+            sourceRect.top - rect.top,
+            sourceRect.width,
+            sourceRect.height,
+          );
+        });
       }
 
       if (obstacle.shape === "text") {
