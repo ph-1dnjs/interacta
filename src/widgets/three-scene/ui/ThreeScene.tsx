@@ -190,6 +190,7 @@ function GlassHelloWorld() {
 }
 
 const movementKeys = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])
+const groundHeight = -1.65
 
 function BunnyAvatar() {
   const { scene } = useGLTF('/models/bunny-avatar.glb')
@@ -209,6 +210,7 @@ function BunnyAvatar() {
 function BunnyPlayer() {
   const player = useRef<THREE.Group>(null)
   const pressedKeys = useRef(new Set<string>())
+  const jumpVelocity = useRef(0)
 
   useEffect(() => {
     const isTyping = (target: EventTarget | null) =>
@@ -216,7 +218,15 @@ function BunnyPlayer() {
       (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (!movementKeys.has(event.key) || isTyping(event.target)) return
+      if (isTyping(event.target)) return
+
+      if (event.code === 'Space') {
+        event.preventDefault()
+        if (!event.repeat && jumpVelocity.current === 0) jumpVelocity.current = 5.6
+        return
+      }
+
+      if (!movementKeys.has(event.key)) return
       pressedKeys.current.add(event.key)
       event.preventDefault()
     }
@@ -241,17 +251,29 @@ function BunnyPlayer() {
       0,
       Number(pressedKeys.current.has('ArrowDown')) - Number(pressedKeys.current.has('ArrowUp')),
     )
-    if (direction.lengthSq() === 0) return
+    const isMoving = direction.lengthSq() > 0
+    if (isMoving) {
+      direction.normalize()
+      player.current.position.x = THREE.MathUtils.clamp(player.current.position.x + direction.x * delta * 3.2, -4.2, 4.2)
+      player.current.position.z = THREE.MathUtils.clamp(player.current.position.z + direction.z * delta * 3.2, -2.3, 2.3)
+      player.current.rotation.y = Math.atan2(direction.x, direction.z)
+    }
 
-    direction.normalize()
-    player.current.position.x = THREE.MathUtils.clamp(player.current.position.x + direction.x * delta * 3.2, -4.2, 4.2)
-    player.current.position.z = THREE.MathUtils.clamp(player.current.position.z + direction.z * delta * 3.2, -2.3, 2.3)
-    player.current.rotation.y = Math.atan2(direction.x, direction.z)
-    player.current.position.y = -1.65 + Math.sin(performance.now() * 0.018) * 0.035
+    if (jumpVelocity.current !== 0 || player.current.position.y > groundHeight) {
+      jumpVelocity.current -= 15 * delta
+      player.current.position.y += jumpVelocity.current * delta
+      if (player.current.position.y <= groundHeight) {
+        player.current.position.y = groundHeight
+        jumpVelocity.current = 0
+      }
+      return
+    }
+
+    player.current.position.y = groundHeight + (isMoving ? Math.sin(performance.now() * 0.018) * 0.035 : 0)
   })
 
   return (
-    <group ref={player} position={[0, -1.65, 0]}>
+    <group ref={player} position={[0, groundHeight, 0]}>
       <BunnyAvatar />
     </group>
   )
