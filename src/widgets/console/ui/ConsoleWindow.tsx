@@ -21,6 +21,15 @@ const initialLines = [
   "",
 ];
 
+const availableCommands = [
+  ["npm run hello", "Display the Hello World message."],
+  ["npm run hello:close", "Hide the Hello World message."],
+  ["npm run rain", "Start the rain effect."],
+  ["npm run rain:stop", "Stop the rain effect."],
+  ["npm run umbrella", "Show the umbrella scene."],
+  ["npm run umbrella:close", "Hide the umbrella scene."],
+];
+
 export function ConsoleWindow({
   onClose,
   onOpenHello,
@@ -49,6 +58,20 @@ export function ConsoleWindow({
       return;
     }
 
+    if (normalizedCommand === "help") {
+      setLines((current) => [
+        ...current,
+        `C:\\Documents and Settings\\Administrator>${enteredCommand}`,
+        "Available commands:",
+        ...availableCommands.map(
+          ([name, description]) => `${name.padEnd(24)}${description}`,
+        ),
+        "",
+      ]);
+      setCommand("");
+      return;
+    }
+
     const commands: Record<string, () => void> = {
       "npm run hello": onOpenHello,
       "npm run hello:close": onCloseHello,
@@ -60,13 +83,26 @@ export function ConsoleWindow({
 
     if (commands[normalizedCommand]) {
       commands[normalizedCommand]();
-      setLines((current) => [...current, `C:\\Documents and Settings\\Administrator>${enteredCommand}`, ""]);
+      setLines((current) => [
+        ...current,
+        `C:\\Documents and Settings\\Administrator>${enteredCommand}`,
+        "",
+      ]);
       setCommand("");
       return;
     }
 
-    const response = ["'" + enteredCommand + "' is not recognized as an internal or external command."];
-    setLines((current) => [...current, `C:\\Documents and Settings\\Administrator>${enteredCommand}`, ...response, ""]);
+    const response = [
+      "'" +
+        enteredCommand +
+        "' is not recognized as an internal or external command.",
+    ];
+    setLines((current) => [
+      ...current,
+      `C:\\Documents and Settings\\Administrator>${enteredCommand}`,
+      ...response,
+      "",
+    ]);
     setCommand("");
   };
 
@@ -81,7 +117,10 @@ export function ConsoleWindow({
         className="console-titlebar"
         onPointerDown={(event) => {
           if (isMaximized || event.button !== 0) return;
-          dragOffset.current = { x: event.clientX - position.x, y: event.clientY - position.y };
+          dragOffset.current = {
+            x: event.clientX - position.x,
+            y: event.clientY - position.y,
+          };
           event.currentTarget.setPointerCapture(event.pointerId);
         }}
         onPointerMove={(event) => {
@@ -91,22 +130,60 @@ export function ConsoleWindow({
             y: Math.max(0, event.clientY - dragOffset.current.y),
           });
         }}
-        onPointerUp={() => { dragOffset.current = null; }}
-        onPointerCancel={() => { dragOffset.current = null; }}
+        onPointerUp={() => {
+          dragOffset.current = null;
+        }}
+        onPointerCancel={() => {
+          dragOffset.current = null;
+        }}
       >
-        <span className="console-title"><i aria-hidden="true">C:\\</i> Command Prompt</span>
+        <span className="console-title">
+          <i aria-hidden="true">C:\\</i> Command Prompt
+        </span>
         <div className="console-controls">
-          <button type="button" aria-label="창모드 전환" onPointerDown={(event) => event.stopPropagation()} onClick={() => setIsMaximized((value) => !value)}>
+          <button
+            type="button"
+            aria-label="창모드 전환"
+            onPointerDown={(event) => event.stopPropagation()}
+            onClick={() => setIsMaximized((value) => !value)}
+          >
             {isMaximized ? "▣" : "□"}
           </button>
-          <button type="button" aria-label="닫기" onPointerDown={(event) => event.stopPropagation()} onClick={onClose}>×</button>
+          <button
+            type="button"
+            aria-label="닫기"
+            onPointerDown={(event) => event.stopPropagation()}
+            onClick={onClose}
+          >
+            ×
+          </button>
         </div>
       </header>
-      <div className="console-body" onPointerDown={(event) => event.stopPropagation()}>
-        {lines.map((line, index) => <div key={`${line}-${index}`}>{line || " "}</div>)}
-        <form autoComplete="off" onSubmit={(event) => { event.preventDefault(); submitCommand(); }}>
-          <label htmlFor="console-input">C:\\Documents and Settings\\Administrator&gt;</label>
-          <input id="console-input" autoComplete="off" autoFocus value={command} onChange={(event) => setCommand(event.target.value)} spellCheck="false" />
+      <div
+        className="console-body"
+        onPointerDown={(event) => event.stopPropagation()}
+      >
+        {lines.map((line, index) => (
+          <div key={`${line}-${index}`}>{line || " "}</div>
+        ))}
+        <form
+          autoComplete="off"
+          onSubmit={(event) => {
+            event.preventDefault();
+            submitCommand();
+          }}
+        >
+          <label htmlFor="console-input">
+            C:\\Documents and Settings\\Administrator&gt;
+          </label>
+          <input
+            id="console-input"
+            autoComplete="off"
+            autoFocus
+            value={command}
+            onChange={(event) => setCommand(event.target.value)}
+            spellCheck="false"
+          />
         </form>
       </div>
     </section>
