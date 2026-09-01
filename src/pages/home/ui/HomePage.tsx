@@ -3,6 +3,7 @@ import galleryIcon from "../../../shared/assets/305.ico";
 import consoleIcon from "../../../shared/assets/1044.ico";
 import notepadIcon from "../../../shared/assets/514.ico";
 import { ConsoleWindow } from "../../../widgets/console";
+import { ExplorerWindow } from "../../../widgets/explorer";
 import { NotepadWindow } from "../../../widgets/notepad";
 import { GalleryOneWindow } from "../../../widgets/gallery-one/ui/GalleryOneWindow";
 import { GalleryTwoWindow } from "../../../widgets/gallery-two/ui/GalleryTwoWindow";
@@ -31,7 +32,8 @@ export function HomePage() {
   const [isGalleryTwoOpen, setIsGalleryTwoOpen] = useState(false);
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);
   const [isNotepadOpen, setIsNotepadOpen] = useState(false);
-  const [focusedWindow, setFocusedWindow] = useState<"console" | "notepad">("console");
+  const [isExplorerOpen, setIsExplorerOpen] = useState(false);
+  const [focusedWindow, setFocusedWindow] = useState<"console" | "notepad" | "explorer">("console");
   const [isHelloWorldVisible, setIsHelloWorldVisible] = useState(false);
   const [isUmbrellaVisible, setIsUmbrellaVisible] = useState(false);
   const threeSceneRef = useRef<HTMLDivElement>(null);
@@ -52,6 +54,18 @@ export function HomePage() {
 
   return (
     <main className={isRaining ? "is-raining" : undefined}>
+      <button
+        className="desktop-icon explorer-icon"
+        type="button"
+        onClick={() => {
+          setFocusedWindow("explorer");
+          setIsExplorerOpen(true);
+        }}
+        aria-label="Internet Explorer 열기"
+      >
+        <span className="explorer-desktop-mark" aria-hidden="true">e</span>
+        <span>Internet Explorer</span>
+      </button>
       <button
         className="desktop-icon notepad-icon"
         type="button"
@@ -135,6 +149,13 @@ export function HomePage() {
           onClose={() => setIsNotepadOpen(false)}
           onFocus={() => setFocusedWindow("notepad")}
           isFocused={focusedWindow === "notepad"}
+        />
+      )}
+      {isExplorerOpen && (
+        <ExplorerWindow
+          onClose={() => setIsExplorerOpen(false)}
+          onFocus={() => setFocusedWindow("explorer")}
+          isFocused={focusedWindow === "explorer"}
         />
       )}
       <nav ref={taskbarRef} className="taskbar" aria-label="작업 표시줄">

@@ -77,16 +77,46 @@ main::after {
 .gallery-icon {
   top: 34px;
 }
-.gallery-two-icon {
+.explorer-icon {
   top: 126px;
 }
-.console-icon {
+.explorer-desktop-mark {
+  position: relative;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 4px solid #6ce3f6;
+  border-radius: 50%;
+  background: radial-gradient(circle at 37% 35%, #79dcff, #0871c5 58%, #0452a6 100%);
+  box-shadow: inset 2px 2px rgba(255, 255, 255, 0.72), 1px 2px 2px rgba(0, 0, 0, 0.36);
+  color: #fff;
+  font: italic bold 57px/1 Arial, sans-serif;
+  letter-spacing: -11px;
+  text-indent: -7px;
+  text-shadow: 1px 2px #07529a;
+}
+.explorer-desktop-mark::after {
+  content: "";
+  position: absolute;
+  width: 72px;
+  height: 20px;
+  border: 4px solid #f4d63e;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 50%;
+  transform: rotate(-21deg);
+}
+.gallery-two-icon {
   top: 218px;
+}
+.console-icon {
+  top: 310px;
 }
 .console-window { z-index: 20; }
 .console-window.is-focused { z-index: 21; }
 .notepad-icon {
-  top: 310px;
+  top: 402px;
 }
 .notepad-window { z-index: 20; }
 .notepad-window.is-focused { z-index: 21; }
