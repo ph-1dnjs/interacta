@@ -3,6 +3,8 @@ import "./ConsoleWindow.css";
 
 type ConsoleWindowProps = {
   onClose: () => void;
+  onOpenBunny: () => void;
+  onCloseBunny: () => void;
   onOpenHello: () => void;
   onCloseHello: () => void;
   onStartRain: () => void;
@@ -22,6 +24,8 @@ const initialLines = [
 ];
 
 const availableCommands = [
+  ["npm run bunny", "Display the bunny avatar."],
+  ["npm run bunny:close", "Hide the bunny avatar."],
   ["npm run hello", "Display the Hello World message."],
   ["npm run hello:close", "Hide the Hello World message."],
   ["npm run rain", "Start the rain effect."],
@@ -32,6 +36,8 @@ const availableCommands = [
 
 export function ConsoleWindow({
   onClose,
+  onOpenBunny,
+  onCloseBunny,
   onOpenHello,
   onCloseHello,
   onStartRain,
@@ -73,6 +79,8 @@ export function ConsoleWindow({
     }
 
     const commands: Record<string, () => void> = {
+      "npm run bunny": onOpenBunny,
+      "npm run bunny:close": onCloseBunny,
       "npm run hello": onOpenHello,
       "npm run hello:close": onCloseHello,
       "npm run rain": onStartRain,

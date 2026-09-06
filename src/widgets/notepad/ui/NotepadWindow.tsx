@@ -9,6 +9,9 @@ const commandNotes = `명령어 커맨드
 npm run hello
 npm run hello:close
 
+npm run bunny
+npm run bunny:close
+
 npm run rain
 npm run rain:stop
 

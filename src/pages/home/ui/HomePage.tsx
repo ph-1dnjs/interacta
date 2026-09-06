@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import galleryIcon from "../../../shared/assets/305.ico";
 import consoleIcon from "../../../shared/assets/1044.ico";
+import explorerIcon from "../../../shared/assets/internet-explorer.ico";
 import notepadIcon from "../../../shared/assets/514.ico";
 import { ConsoleWindow } from "../../../widgets/console";
 import { ExplorerWindow } from "../../../widgets/explorer";
@@ -34,6 +35,7 @@ export function HomePage() {
   const [isNotepadOpen, setIsNotepadOpen] = useState(false);
   const [isExplorerOpen, setIsExplorerOpen] = useState(false);
   const [focusedWindow, setFocusedWindow] = useState<"console" | "notepad" | "explorer">("console");
+  const [isBunnyVisible, setIsBunnyVisible] = useState(false);
   const [isHelloWorldVisible, setIsHelloWorldVisible] = useState(false);
   const [isUmbrellaVisible, setIsUmbrellaVisible] = useState(false);
   const threeSceneRef = useRef<HTMLDivElement>(null);
@@ -63,7 +65,7 @@ export function HomePage() {
         }}
         aria-label="Internet Explorer 열기"
       >
-        <span className="explorer-desktop-mark" aria-hidden="true">e</span>
+        <img src={explorerIcon} alt="" width="75" height="75" />
         <span>Internet Explorer</span>
       </button>
       <button
@@ -119,7 +121,7 @@ export function HomePage() {
         className={isUmbrellaVisible ? "three-scene-obstacle is-interactive" : "three-scene-obstacle"}
       >
         <div className="three-title-scene">
-          <ThreeScene showHelloWorld={isHelloWorldVisible} />
+          <ThreeScene showBunny={isBunnyVisible} showHelloWorld={isHelloWorldVisible} />
         </div>
         {isUmbrellaVisible && (
           <div className="three-umbrella-scene">
@@ -134,6 +136,8 @@ export function HomePage() {
       {isConsoleOpen && (
         <ConsoleWindow
           onClose={() => setIsConsoleOpen(false)}
+          onOpenBunny={() => setIsBunnyVisible(true)}
+          onCloseBunny={() => setIsBunnyVisible(false)}
           onOpenHello={() => setIsHelloWorldVisible(true)}
           onCloseHello={() => setIsHelloWorldVisible(false)}
           onStartRain={() => setIsRaining(true)}

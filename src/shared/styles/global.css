@@ -15,6 +15,158 @@ body {
 main {
   min-height: 100vh;
 }
+.loading-screen {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 74px;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.loading-brand {
+  display: grid;
+  justify-items: center;
+}
+.loading-logo {
+  display: block;
+  width: min(340px, 76vw);
+  height: auto;
+}
+.loading-progress {
+  justify-self: center;
+  width: 128px;
+  height: 15px;
+  padding: 2px;
+  overflow: hidden;
+  border: 1px solid #a6a6a6;
+  border-radius: 3px;
+  background: #080808;
+  box-shadow: inset 0 0 0 1px #242424;
+}
+.loading-progress > span {
+  display: flex;
+  gap: 2px;
+  width: max-content;
+  animation: loading-sweep 1.15s linear infinite;
+}
+.loading-progress i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(90deg, #2b42c8, #728dff);
+  box-shadow: inset 1px 1px rgba(255, 255, 255, 0.45);
+}
+@keyframes loading-sweep {
+  from { transform: translateX(-36px); }
+  to { transform: translateX(126px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading-progress > span { animation: none; transform: translateX(47px); }
+}
+.login-screen {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 74% 60%, rgba(112, 241, 252, 0.9), transparent 27%),
+    radial-gradient(circle at 51% 28%, rgba(45, 166, 239, 0.56), transparent 35%),
+    linear-gradient(145deg, #064a9f 0%, #0078cb 54%, #35c9e7 100%);
+  color: #fff;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.login-screen::before,
+.login-screen::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(155, 243, 255, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.login-screen::before {
+  width: 118vw;
+  height: 50vw;
+  top: 52%;
+  left: -31vw;
+  transform: rotate(11deg);
+}
+.login-screen::after {
+  width: 89vw;
+  height: 32vw;
+  top: 62%;
+  left: 23vw;
+  border-color: rgba(199, 255, 152, 0.47);
+  transform: rotate(23deg);
+}
+.login-orbit {
+  position: absolute;
+  width: 76vw;
+  height: 21vw;
+  border-top: 1px solid rgba(170, 238, 255, 0.4);
+  border-radius: 50%;
+  transform: rotate(25deg);
+}
+.login-orbit-one { top: 20%; left: -20%; }
+.login-orbit-two { right: -27%; bottom: 19%; border-color: rgba(127, 252, 186, 0.45); transform: rotate(-32deg); }
+.login-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  width: min(290px, calc(100vw - 48px));
+  margin-top: -24px;
+}
+.login-avatar {
+  width: 78px;
+  height: 78px;
+  display: block;
+  object-fit: cover;
+  border: 3px solid #caeafa;
+  border-radius: 10px;
+  box-shadow: 0 3px 9px rgba(0, 42, 102, 0.7);
+}
+.login-panel h1 {
+  margin: 14px 0 9px;
+  font-size: 17px;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px #075392;
+}
+.password-row { display: flex; align-items: center; gap: 8px; }
+.password-row input {
+  width: 170px;
+  height: 24px;
+  padding: 2px 6px;
+  border: 1px solid #6d92aa;
+  border-radius: 2px;
+  background: #fff;
+  color: #172433;
+  font: 12px Tahoma, Arial, sans-serif;
+  outline: none;
+}
+.password-row input:focus { border-color: #006dc9; box-shadow: 0 0 0 2px rgba(209, 247, 255, 0.56); }
+.password-row button {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  padding: 0 0 2px;
+  border: 1px solid #4a94be;
+  border-radius: 50%;
+  background: linear-gradient(#86d7ff, #1670b1);
+  box-shadow: inset 1px 1px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 54, 105, 0.55);
+  color: #fff;
+  font: bold 18px/1 Arial, sans-serif;
+  cursor: pointer;
+}
+.password-error { min-height: 16px; margin: 7px 0 0; color: #fff0b8; font-size: 12px; text-shadow: 1px 1px #9a241c; }
+.login-hint { position: absolute; z-index: 1; bottom: 22px; margin: 0; font-size: 12px; text-shadow: 1px 1px 2px #075392; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 main {
   position: relative;
   isolation: isolate;
@@ -79,33 +231,6 @@ main::after {
 }
 .explorer-icon {
   top: 126px;
-}
-.explorer-desktop-mark {
-  position: relative;
-  display: grid;
-  width: 60px;
-  height: 60px;
-  place-items: center;
-  border: 4px solid #6ce3f6;
-  border-radius: 50%;
-  background: radial-gradient(circle at 37% 35%, #79dcff, #0871c5 58%, #0452a6 100%);
-  box-shadow: inset 2px 2px rgba(255, 255, 255, 0.72), 1px 2px 2px rgba(0, 0, 0, 0.36);
-  color: #fff;
-  font: italic bold 57px/1 Arial, sans-serif;
-  letter-spacing: -11px;
-  text-indent: -7px;
-  text-shadow: 1px 2px #07529a;
-}
-.explorer-desktop-mark::after {
-  content: "";
-  position: absolute;
-  width: 72px;
-  height: 20px;
-  border: 4px solid #f4d63e;
-  border-right: 0;
-  border-left: 0;
-  border-radius: 50%;
-  transform: rotate(-21deg);
 }
 .gallery-two-icon {
   top: 218px;

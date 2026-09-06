@@ -279,7 +279,13 @@ function BunnyPlayer() {
   )
 }
 
-export function ThreeScene({ showHelloWorld = false }: { showHelloWorld?: boolean }) {
+export function ThreeScene({
+  showBunny = false,
+  showHelloWorld = false,
+}: {
+  showBunny?: boolean
+  showHelloWorld?: boolean
+}) {
   return (
     <Canvas
       className="three-canvas"
@@ -290,9 +296,11 @@ export function ThreeScene({ showHelloWorld = false }: { showHelloWorld?: boolea
       <directionalLight position={[-4, 5, 5]} color="#d9f6ff" intensity={4.8} />
       <pointLight position={[3, -1, 3]} color="#3b9cff" intensity={16} distance={13} />
       <pointLight position={[-3, 2, 2]} color="#ffffff" intensity={8} distance={10} />
-      <Suspense fallback={null}>
-        <BunnyPlayer />
-      </Suspense>
+      {showBunny && (
+        <Suspense fallback={null}>
+          <BunnyPlayer />
+        </Suspense>
+      )}
       {showHelloWorld && (
         <Suspense fallback={null}>
           <GlassHelloWorld />
