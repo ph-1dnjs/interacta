@@ -4,20 +4,47 @@ import { HomePage } from "../pages/home";
 import loginAvatar from "../shared/assets/login-avatar.jpg";
 import windowsXpLogo from "../shared/assets/windows-xp-logo.png";
 
+const SESSION_STORAGE_KEY = "interacta.sessionExpiresAt";
+const SESSION_DURATION_MS = 24 * 60 * 60 * 1000;
+
+function hasValidSession() {
+  try {
+    const expiresAt = Number(localStorage.getItem(SESSION_STORAGE_KEY));
+    return Number.isFinite(expiresAt) && expiresAt > Date.now();
+  } catch {
+    return false;
+  }
+}
+
 export function App() {
-  const [screen, setScreen] = useState<"loading" | "login" | "home">("loading");
+  const [screen, setScreen] = useState<"loading" | "login" | "home">(
+    () => hasValidSession() ? "home" : "loading",
+  );
 
   useEffect(() => {
+    if (screen !== "loading") return;
     const timer = window.setTimeout(() => setScreen("login"), 2600);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [screen]);
+
+  const handleLoginSuccess = () => {
+    try {
+      localStorage.setItem(
+        SESSION_STORAGE_KEY,
+        String(Date.now() + SESSION_DURATION_MS),
+      );
+    } catch {
+      // 브라우저 저장소가 차단되어도 현재 탭에서는 로그인할 수 있습니다.
+    }
+    setScreen("home");
+  };
 
   return (
     <>
       {screen === "home" && <HomePage />}
       {screen === "loading" && <LoadingScreen />}
       {screen === "login" && (
-        <LoginScreen onSuccess={() => setScreen("home")} />
+        <LoginScreen onSuccess={handleLoginSuccess} />
       )}
     </>
   );
