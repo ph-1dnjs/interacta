@@ -325,6 +325,118 @@ export function UmbrellaScene() {
   )
 }
 
+function HelperDogModel() {
+  const dog = useRef<THREE.Group>(null)
+  const pupils = useRef<THREE.Group>(null)
+  const pointer = useRef(new THREE.Vector2(0, 0))
+
+  useEffect(() => {
+    const followPointer = (event: PointerEvent) => {
+      pointer.current.set(
+        (event.clientX / window.innerWidth - 0.5) * 2,
+        -(event.clientY / window.innerHeight - 0.5) * 2,
+      )
+    }
+
+    window.addEventListener('pointermove', followPointer, { passive: true })
+    return () => window.removeEventListener('pointermove', followPointer)
+  }, [])
+
+  useFrame((_, delta) => {
+    if (!dog.current || !pupils.current) return
+    const gazeX = THREE.MathUtils.clamp(pointer.current.x * 0.13, -0.13, 0.13)
+    const gazeY = THREE.MathUtils.clamp(pointer.current.y * 0.09, -0.08, 0.08)
+
+    dog.current.rotation.y = THREE.MathUtils.damp(dog.current.rotation.y, -0.42 + pointer.current.x * 0.12, 7, delta)
+    pupils.current.position.x = THREE.MathUtils.damp(pupils.current.position.x, gazeX, 12, delta)
+    pupils.current.position.y = THREE.MathUtils.damp(pupils.current.position.y, gazeY, 12, delta)
+  })
+
+  return (
+    <group ref={dog} position={[0, -0.22, 0]} rotation={[0, -0.42, 0]} scale={0.92}>
+      <mesh position={[0.05, -0.38, 0]} scale={[0.75, 0.84, 0.48]} castShadow>
+        <sphereGeometry args={[1, 32, 24]} />
+        <meshStandardMaterial color="#d99527" roughness={0.68} />
+      </mesh>
+      <mesh position={[0, 0.55, 0.03]} scale={[0.84, 0.76, 0.6]} castShadow>
+        <sphereGeometry args={[1, 32, 24]} />
+        <meshStandardMaterial color="#e7a634" roughness={0.63} />
+      </mesh>
+      <mesh position={[-0.7, 0.56, -0.02]} rotation={[0.08, -0.2, 0.34]} scale={[0.27, 0.66, 0.22]} castShadow>
+        <sphereGeometry args={[1, 24, 16]} />
+        <meshStandardMaterial color="#b96920" roughness={0.75} />
+      </mesh>
+      <mesh position={[0.7, 0.56, -0.02]} rotation={[0.08, 0.2, -0.34]} scale={[0.27, 0.66, 0.22]} castShadow>
+        <sphereGeometry args={[1, 24, 16]} />
+        <meshStandardMaterial color="#b96920" roughness={0.75} />
+      </mesh>
+      <mesh position={[0, 0.2, 0.58]} scale={[0.47, 0.3, 0.12]}>
+        <sphereGeometry args={[1, 28, 18]} />
+        <meshStandardMaterial color="#f6ca75" roughness={0.72} />
+      </mesh>
+      <group ref={pupils}>
+        {[-0.29, 0.29].map((x) => (
+          <group key={x} position={[x, 0.66, 0.56]}>
+            <mesh scale={[0.2, 0.24, 0.09]}>
+              <sphereGeometry args={[1, 24, 16]} />
+              <meshStandardMaterial color="#fffdf6" roughness={0.25} />
+            </mesh>
+            <mesh position={[0, 0, 0.075]} scale={[0.095, 0.13, 0.055]}>
+              <sphereGeometry args={[1, 20, 14]} />
+              <meshStandardMaterial color="#25170f" roughness={0.25} />
+            </mesh>
+            <mesh position={[-0.026, 0.04, 0.12]} scale={[0.027, 0.036, 0.014]}>
+              <sphereGeometry args={[1, 12, 10]} />
+              <meshBasicMaterial color="#fff" />
+            </mesh>
+          </group>
+        ))}
+      </group>
+      <mesh position={[0, 0.25, 0.72]} scale={[0.16, 0.1, 0.08]}>
+        <sphereGeometry args={[1, 24, 16]} />
+        <meshStandardMaterial color="#241714" roughness={0.28} />
+      </mesh>
+      {[-0.47, 0.47].map((x, index) => (
+        <group key={x} position={[x, -0.88, index === 0 ? 0.06 : -0.08]}>
+          <mesh scale={[0.25, 0.54, 0.28]} castShadow>
+            <sphereGeometry args={[1, 24, 16]} />
+            <meshStandardMaterial color="#df9a29" roughness={0.68} />
+          </mesh>
+          <mesh position={[0.05, -0.38, 0.19]} scale={[0.34, 0.16, 0.36]} castShadow>
+            <sphereGeometry args={[1, 24, 16]} />
+            <meshStandardMaterial color="#e7a634" roughness={0.68} />
+          </mesh>
+        </group>
+      ))}
+      <group position={[0.63, -1.02, -0.08]} rotation={[0.22, 0, -0.82]} scale={0.68}>
+        <mesh position={[0, 0.2, 0]} scale={[0.16, 0.42, 0.16]} castShadow>
+          <sphereGeometry args={[1, 20, 14]} />
+          <meshStandardMaterial color="#c87821" roughness={0.7} />
+        </mesh>
+        <mesh position={[0.05, 0.55, 0]} rotation={[0, 0, 0.28]} scale={[0.14, 0.22, 0.14]} castShadow>
+          <sphereGeometry args={[1, 20, 14]} />
+          <meshStandardMaterial color="#c87821" roughness={0.7} />
+        </mesh>
+      </group>
+      <mesh position={[-0.48, -1.2, 0.29]} scale={[0.32, 0.2, 0.42]} castShadow>
+          <sphereGeometry args={[1, 24, 16]} />
+          <meshStandardMaterial color="#e7a634" roughness={0.68} />
+      </mesh>
+    </group>
+  )
+}
+
+export function HelperDogScene() {
+  return (
+    <Canvas className="three-canvas" camera={{ position: [0, 0, 6.6], fov: 33 }} gl={{ alpha: true, antialias: true }}>
+      <ambientLight intensity={2.2} />
+      <directionalLight position={[-3, 4, 5]} intensity={3.2} />
+      <pointLight position={[2.5, 1, 3]} color="#d6efff" intensity={3} />
+      <HelperDogModel />
+    </Canvas>
+  )
+}
+
 function DraggableUmbrella() {
   return (
     <group position={[3.45, -1.2, 0]} scale={0.52}>

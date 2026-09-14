@@ -1,39 +1,37 @@
 .explorer-window { position: fixed; z-index: 20; display: flex; flex-direction: column; overflow: hidden; border: 3px solid #0b4ca2; border-radius: 7px 7px 0 0; background: #ece9d8; box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.48); color: #111; }
 .explorer-window.is-focused { z-index: 22; }
 .explorer-window.is-maximized { inset: 0; width: 100vw; height: calc(100vh - 48px); border-radius: 0; }
-.explorer-titlebar { display: flex; flex: 0 0 48px; align-items: center; padding-left: 10px; background: linear-gradient(90deg, #0759bd, #2d83e6 72%, #74b1ed); color: #fff; font: bold 24px/1 Tahoma, Arial, sans-serif; cursor: move; user-select: none; }
+.explorer-titlebar { display: flex; flex: 0 0 34px; align-items: center; padding-left: 7px; background: linear-gradient(90deg, #0759bd, #2d83e6 72%, #74b1ed); color: #fff; font: bold 15px/1 Tahoma, Arial, sans-serif; cursor: move; user-select: none; }
 .explorer-title { display: flex; flex: 1; align-items: center; gap: 5px; white-space: nowrap; }
-.explorer-title i { position: relative; width: 28px; height: 28px; border: 3px solid #fff; border-radius: 50%; background: #0d76be; }
-.explorer-title i::after { content: "e"; position: absolute; top: -10px; left: 4px; color: #fff; font: italic bold 32px/1 Arial, sans-serif; }
-.explorer-controls { display: flex; align-self: stretch; padding: 6px 6px 6px 0; }
-.explorer-controls button { width: 36px; height: 36px; margin-left: 4px; padding: 0; border: 2px solid #fff; border-right-color: #0b438d; border-bottom-color: #0b438d; border-radius: 3px; background: linear-gradient(#5ba5f4, #2373cc); color: #fff; font: bold 28px/26px Arial, sans-serif; cursor: pointer; }
-.explorer-controls button:last-child { background: linear-gradient(#eb806c, #c43720); font-size: 36px; }
-.explorer-menu { display: flex; flex: 0 0 40px; align-items: center; gap: 30px; padding: 0 14px; border-bottom: 1px solid #a8a8a8; background: #f4f3ee; font: 22px/1 Tahoma, Arial, sans-serif; }
-.explorer-commandbar { display: flex; flex: 0 0 72px; align-items: center; gap: 8px; padding: 4px 10px; border-bottom: 1px solid #bebebe; background: #ece9d8; }
-.explorer-commandbar button { display: grid; width: 78px; height: 62px; place-items: center; padding: 0; border: 0; background: transparent; color: #222; font: 20px/1 Tahoma, Arial, sans-serif; }
-.explorer-commandbar button b { display: block; color: #176dbc; font: bold 32px/24px Arial, sans-serif; }
-.explorer-commandbar button:nth-of-type(3) b { color: #d23920; font-size: 42px; }
-.explorer-commandbar button:nth-of-type(5) b { color: #e7ae00; }
-.explorer-commandbar button:disabled { color: #aaa; }
-.explorer-commandbar button:disabled b { color: #b9b9b9; }
-.explorer-commandbar > i { width: 2px; height: 54px; margin: 0 4px; background: linear-gradient(90deg, #aaa, #fff); }
-.explorer-addressbar { display: flex; flex: 0 0 48px; align-items: stretch; border-bottom: 1px solid #b7b7b7; background: #ece9d8; }
-.explorer-addressbar > button { width: 144px; border: 0; border-right: 1px solid #b7b7b7; background: transparent; color: #222; font: 20px/1 Tahoma, Arial, sans-serif; }
-.explorer-addressbar > button span { color: #e6b000; font-size: 26px; }
-.explorer-addressbar label { display: flex; flex: 1; align-items: center; gap: 8px; min-width: 0; padding: 4px 10px; color: #333; font: 20px/1 Tahoma, Arial, sans-serif; }
-.explorer-addressbar label > i { width: 28px; height: 28px; flex: 0 0 auto; border: 2px solid #0b6cab; border-radius: 50%; background: #1d9cde; }
-.explorer-addressbar input { width: 100%; min-width: 0; height: 36px; border: 1px solid #888; background: #fff; padding: 2px 6px; color: #222; font: 20px/1 Arial, sans-serif; }
-.explorer-addressbar label b { width: 28px; height: 36px; margin-left: -8px; border: 1px solid #888; background: #ece9d8; font: 24px/26px Arial, sans-serif; text-align: center; }
-.explorer-go { width: 70px; margin: 4px 8px 4px 0; border: 1px solid #aaa; background: #f7f7f7; color: #333; font: 20px/1 Arial, sans-serif; }
-.explorer-linkbar { display: flex; flex: 0 0 40px; align-items: center; gap: 20px; padding: 0 16px; border-bottom: 1px solid #aaa; background: #f3f3f3; color: #333; font: 20px/1 Tahoma, Arial, sans-serif; }
-.explorer-linkbar i { width: 1px; height: 26px; background: #b8b8b8; }
-.portfolio-page { flex: 1; overflow: auto; background: #fff; color: #111; font-family: Tahoma, Arial, sans-serif; }
-.portfolio-placeholder { width: max-content; max-width: calc(100% - 60px); margin: clamp(40px, 8vh, 120px) auto 0; font-size: 22px; }
-.portfolio-placeholder h1 { margin: 0 0 26px; font: bold 28px/1.2 Tahoma, Arial, sans-serif; }
-.portfolio-placeholder p { margin: 0 0 24px; color: #555; font: 22px/1.2 Tahoma, Arial, sans-serif; }
-.portfolio-placeholder a { color: #80416f; font: 22px/1.2 Tahoma, Arial, sans-serif; text-decoration: underline; }
-.explorer-status { display: grid; flex: 0 0 36px; grid-template-columns: 1fr auto 108px; align-items: center; padding: 0 10px; border-top: 1px solid #fff; background: #ece9d8; color: #444; font: 20px/1 Tahoma, Arial, sans-serif; }
+.explorer-title img { width: 19px; height: 19px; object-fit: contain; }
+.explorer-controls { display: flex; align-self: stretch; padding: 3px 4px 3px 0; }
+.explorer-controls button { width: 28px; height: 28px; margin-left: 3px; padding: 0; border: 1px solid #fff; border-right-color: #0b438d; border-bottom-color: #0b438d; border-radius: 3px; background: linear-gradient(#5ba5f4, #2373cc); color: #fff; font: bold 23px/21px Arial, sans-serif; cursor: pointer; }
+.explorer-controls button:last-child { background: linear-gradient(#eb806c, #c43720); font-size: 28px; }
+.explorer-addressbar { display: flex; flex: 0 0 38px; align-items: center; gap: 5px; padding: 3px 7px; border-bottom: 1px solid #a5a5a5; background: linear-gradient(#f8f8f5, #e5e2d8); }
+.address-nav { display: flex; gap: 3px; }
+.address-nav button { display: grid; width: 28px; height: 28px; place-items: center; padding: 0 0 3px; border: 1px solid #8f9ca7; border-radius: 50%; background: linear-gradient(#fcffff, #a7c6dd); box-shadow: inset 1px 1px #fff; color: #2c76b4; font: bold 27px/18px Arial, sans-serif; }
+.address-nav button:disabled { color: #aeb4b8; filter: grayscale(1); }
+.explorer-addressbar label { display: flex; flex: 1; align-items: center; gap: 0; min-width: 0; color: #333; font: 20px/1 Tahoma, Arial, sans-serif; }
+.explorer-addressbar input { width: 100%; min-width: 0; height: 28px; border: 1px solid #888; background: #fff; padding: 2px 5px; color: #222; font: 16px/1 Arial, sans-serif; }
+.explorer-addressbar label b { width: 24px; height: 28px; margin-left: -1px; border: 1px solid #888; background: linear-gradient(#fff, #d9d9d9); color: #315d8c; font: 20px/21px Arial, sans-serif; text-align: center; }
+.explorer-refresh { width: 32px; height: 28px; border: 1px solid #aab0aa; border-radius: 3px; background: linear-gradient(#fff, #d8e7d7); color: #248b36; font: bold 22px/1 Arial, sans-serif; }
+.explorer-search { flex: 0 0 195px !important; }
+.explorer-search input { color: #8a8a8a; }
+.explorer-search b { color: #1c64b4 !important; }
+.explorer-menu { display: flex; flex: 0 0 25px; align-items: center; gap: 20px; padding: 0 12px; border-bottom: 1px solid #bdbdbd; background: #f5f4ee; color: #5d5d5d; font: 14px/1 Tahoma, Arial, sans-serif; }
+.explorer-commandbar { display: flex; flex: 0 0 33px; align-items: center; gap: 4px; padding: 1px 10px; border-bottom: 1px solid #bcbcbc; background: linear-gradient(#fbfbfa, #e7e5de); }
+.explorer-commandbar button { display: flex; align-items: center; gap: 4px; padding: 2px 6px; border: 1px solid transparent; border-radius: 3px; background: transparent; color: #333; font: 14px/1 Tahoma, Arial, sans-serif; }
+.explorer-commandbar button:hover { border-color: #9ab9d8; background: #e5f1fb; }
+.explorer-commandbar button b { color: #2b6cb2; font: bold 18px/16px Arial, sans-serif; }
+.explorer-commandbar button:first-child b { color: #f1ad00; font-size: 22px; }
+.explorer-commandbar > i { width: 1px; height: 20px; margin: 0 3px; background: linear-gradient(90deg, #aaa, #fff); }
+.explorer-tabs { display: flex; flex: 0 0 31px; align-items: end; gap: 2px; padding: 0 10px; border-bottom: 1px solid #6e9ed0; background: linear-gradient(#d9ebfb, #b7d6f2); }
+.explorer-tabs button { height: 27px; padding: 0 12px; border: 1px solid #8eafd1; border-bottom: 0; border-radius: 6px 6px 0 0; background: linear-gradient(#f8fcff, #d6e7f6); color: #264c72; font: 13px/1 Tahoma, Arial, sans-serif; }
+.explorer-tabs .is-selected { display: flex; align-items: center; gap: 5px; min-width: 205px; background: #fff; color: #111; }
+.explorer-tabs img { width: 16px; height: 16px; }
+.explorer-status { display: grid; flex: 0 0 27px; grid-template-columns: 1fr auto 90px; align-items: center; padding: 0 8px; border-top: 1px solid #fff; background: #ece9d8; color: #444; font: 16px/1 Tahoma, Arial, sans-serif; }
 .explorer-status > span + span { padding-left: 10px; border-left: 1px solid #aaa; }
 .explorer-status > span:last-child { text-align: right; }
-.explorer-status i { display: inline-block; width: 20px; height: 20px; margin-right: 6px; border-radius: 50%; background: #23a494; vertical-align: -4px; }
-@media (max-width: 600px) { .explorer-window { left: 16px !important; width: calc(100vw - 32px) !important; height: min(520px, calc(100vh - 80px)) !important; } .explorer-menu { gap: 10px; } .explorer-menu span:nth-child(n + 5), .explorer-commandbar button:nth-of-type(n + 6), .explorer-commandbar > i:nth-of-type(2), .explorer-linkbar span:nth-child(n + 4) { display: none; } .portfolio-placeholder { margin-top: 35px; } }
+.explorer-status i { display: inline-block; width: 16px; height: 16px; margin-right: 5px; border-radius: 50%; background: #23a494; vertical-align: -3px; }
+@media (max-width: 600px) { .explorer-titlebar { flex-basis: 30px; font-size: 13px; } .explorer-controls { padding: 2px; } .explorer-controls button { width: 25px; height: 25px; font-size: 19px; } .explorer-commandbar { flex-basis: 31px; } }
+@media (max-width: 600px) { .explorer-window { left: 16px !important; width: calc(100vw - 32px) !important; height: min(520px, calc(100vh - 80px)) !important; } .explorer-titlebar { flex-basis: 36px; font-size: 15px; } .explorer-controls { padding: 3px; } .explorer-controls button { width: 29px; height: 28px; font-size: 21px; } .explorer-menu { gap: 10px; font-size: 13px; } .explorer-menu span:nth-child(n + 5), .explorer-commandbar button:nth-of-type(n + 5), .explorer-commandbar > i, .explorer-search, .explorer-refresh { display: none; } .explorer-commandbar { flex-basis: 34px; } .explorer-commandbar button { font-size: 13px; } .explorer-tabs .is-selected { min-width: 180px; } }

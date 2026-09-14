@@ -229,19 +229,20 @@ main::after {
 .gallery-icon {
   top: 34px;
 }
+.projects-icon { top: 126px; }
 .explorer-icon {
-  top: 126px;
-}
-.gallery-two-icon {
   top: 218px;
 }
-.console-icon {
+.gallery-two-icon {
   top: 310px;
+}
+.console-icon {
+  top: 402px;
 }
 .console-window { z-index: 20; }
 .console-window.is-focused { z-index: 21; }
 .notepad-icon {
-  top: 402px;
+  top: 494px;
 }
 .notepad-window { z-index: 20; }
 .notepad-window.is-focused { z-index: 21; }
@@ -258,6 +259,108 @@ main::after {
   background: rgba(10, 26, 52, 0.12);
   pointer-events: none;
 }
+.desktop-helper {
+  position: fixed;
+  z-index: 15;
+  right: clamp(18px, 3vw, 52px);
+  bottom: 49px;
+  display: grid;
+  justify-items: end;
+  pointer-events: none;
+}
+.desktop-helper-message {
+  position: relative;
+  width: min(238px, calc(100vw - 42px));
+  margin: 0 19px -4px 0;
+  padding: 13px 30px 13px 15px;
+  border: 1px solid #5a7eb5;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #f7fbff, #dceaff 78%);
+  box-shadow: 2px 3px 7px rgba(4, 44, 116, 0.42), inset 1px 1px rgba(255, 255, 255, 0.9);
+  color: #17355f;
+  font-family: Tahoma, Arial, sans-serif;
+  pointer-events: auto;
+}
+.desktop-helper-message::after {
+  content: "";
+  position: absolute;
+  right: 23px;
+  bottom: -12px;
+  width: 19px;
+  height: 19px;
+  border-right: 1px solid #5a7eb5;
+  border-bottom: 1px solid #5a7eb5;
+  background: #e2edff;
+  transform: rotate(45deg);
+}
+.desktop-helper-message strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+.desktop-helper-message strong { margin-bottom: 6px; color: #102c55; font-size: 13px; }
+.desktop-helper-shortcuts { position: relative; z-index: 1; display: grid; gap: 4px; }
+.desktop-helper-shortcuts button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: fit-content;
+  padding: 1px 2px;
+  border: 0;
+  background: transparent;
+  color: #173d77;
+  font: 12px/16px Tahoma, Arial, sans-serif;
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.desktop-helper-shortcuts button::before {
+  content: "›";
+  display: grid;
+  width: 14px;
+  height: 14px;
+  place-items: center;
+  border-radius: 1px;
+  background: linear-gradient(#69c84f, #319129);
+  box-shadow: inset 1px 1px rgba(255, 255, 255, 0.55);
+  color: #fff;
+  font: bold 18px/11px Arial, sans-serif;
+  text-decoration: none;
+}
+.desktop-helper-shortcuts button:hover { color: #0b61b2; background: rgba(255, 255, 255, 0.58); }
+.desktop-helper-shortcuts button:focus-visible { outline: 1px dotted #123b72; outline-offset: 1px; }
+.desktop-helper-close {
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  right: 6px;
+  width: 19px;
+  height: 19px;
+  padding: 0 0 2px;
+  border: 1px solid #4a72a7;
+  border-radius: 3px;
+  background: linear-gradient(#feffff, #c5dbfa);
+  color: #24558d;
+  font: bold 16px/14px Arial, sans-serif;
+  cursor: pointer;
+}
+.desktop-helper-dog {
+  position: relative;
+  z-index: 1;
+  width: 126px;
+  height: 126px;
+  margin-right: 1px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  filter: drop-shadow(2px 3px 2px rgba(8, 43, 102, 0.34));
+  transition: transform 160ms ease;
+}
+.desktop-helper-dog:hover { transform: translateY(-4px) rotate(-2deg); }
+.desktop-helper-dog:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 50%; }
+.desktop-helper-dog canvas { display: block; width: 100% !important; height: 100% !important; pointer-events: none; }
 .three-canvas {
   width: 100% !important;
   height: 100% !important;
@@ -310,6 +413,76 @@ main::after {
   font: inherit;
   text-shadow: inherit;
 }
+.start-menu {
+  position: fixed;
+  z-index: 30;
+  bottom: 48px;
+  left: 2px;
+  width: 298px;
+  overflow: hidden;
+  border: 2px solid #0a4c9f;
+  border-radius: 8px 8px 0 0;
+  background: #f8f7f1;
+  box-shadow: 3px 1px 8px rgba(0, 31, 89, .55);
+  font-family: Tahoma, Arial, sans-serif;
+}
+.start-menu-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 63px;
+  padding: 9px 13px;
+  border-bottom: 2px solid #f8c919;
+  background: linear-gradient(#3988e7, #1160be);
+  color: #fff;
+}
+.start-menu-header img {
+  width: 43px;
+  height: 43px;
+  object-fit: cover;
+  border: 2px solid #d5ecff;
+  border-radius: 5px;
+}
+.start-menu-header span { display: grid; gap: 2px; }
+.start-menu-header strong { font-size: 15px; }
+.start-menu-header small { font-size: 10px; }
+.start-menu-items { padding: 7px 12px 10px; background: #fdfcf8; }
+.start-menu-items button {
+  display: flex;
+  width: 100%;
+  min-height: 36px;
+  align-items: center;
+  gap: 11px;
+  padding: 4px 2px;
+  border: 0;
+  background: transparent;
+  color: #161616;
+  font: 13px/1.15 Tahoma, Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+.start-menu-items button:hover { background: #e7f1fb; color: #0b4e9b; }
+.start-menu-items button img { width: 25px; height: 25px; object-fit: contain; }
+.start-menu-items button strong { font-size: 13px; }
+.start-menu-items > i { display: block; height: 1px; margin: 5px 0; background: #d8d2c4; }
+.start-menu-footer {
+  display: flex;
+  justify-content: flex-end;
+  min-height: 37px;
+  padding: 0 10px;
+  background: linear-gradient(#287bd9, #1053a9);
+}
+.start-menu-footer button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font: bold 12px/1 Tahoma, Arial, sans-serif;
+  cursor: pointer;
+}
+.start-menu-footer i { width: 13px; height: 13px; border-radius: 50%; background: #f19d85; }
 .start-button {
   position: relative;
   display: flex;
@@ -349,6 +522,7 @@ main::after {
   );
   pointer-events: none;
 }
+.start-button.is-open { background: linear-gradient(#1d7e2b, #176c25); box-shadow: inset 1px 1px rgba(0, 57, 15, .6), inset -1px -1px rgba(255, 255, 255, .28); }
 .start-mark {
   position: relative;
   z-index: 1;
@@ -388,6 +562,11 @@ main::after {
   align-items: center;
   gap: 3px;
   padding: 0 8px;
+}
+.quick-launch img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
 }
 .quick-launch-button {
   width: 29px;
@@ -494,4 +673,8 @@ main::after {
   main {
     padding: 2rem;
   }
+  .start-menu { width: min(298px, calc(100vw - 4px)); }
+  .desktop-helper { right: 10px; }
+  .desktop-helper-dog { width: 96px; height: 96px; }
+  .desktop-helper-message { width: min(218px, calc(100vw - 28px)); margin-right: 8px; }
 }
